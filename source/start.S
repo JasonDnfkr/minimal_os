@@ -11,7 +11,22 @@
 
 	// 以下是代码区
  	.text
-_start: 
+_start:
+	jmp $0, $offset // qemu 会自动将cs设为0，也可以不用
+
+offset:
+	mov $0,	%ax
+	mov %ax, %ds
+	mov %ax, %es
+	mov %ax, %ss
+	mov %ax, %gs
+	mov %ax, %fs
+
+	# 分配栈空间 由于bios会将硬盘第一个扇区的内容
+	# 存放至内存0x7c00中，因此将代码开头的地址
+	# 也就是_start的内容放入esp就可以设置栈指针的位置
+	mov $_start, %esp
+
 	jmp .
 
 	.org 	0x1fe // 510
