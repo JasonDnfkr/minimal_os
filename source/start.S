@@ -5,6 +5,7 @@
 
 	// 声明本地以下符号是全局的，在其它源文件中可以访问
 	.global _start
+	.global timer_int
 
 	// 指定以下的代码生成16位的机器指令，这样才能在启动时的实模式下运行
   	.code16
@@ -39,6 +40,7 @@ read_self_all:
 	cli				 # 关中断
 
 	lgdt gdt_desc    # load GDT
+	lidt idt_desc	 # load IDT
 	mov $1, %eax
 	lmsw %ax         # CR0 = 1
 
@@ -71,9 +73,28 @@ _start_32:
 	orl $(1 << 31), %eax
 	mov %eax, %cr0
 
+	sti # start interrupt
+
 	jmp .
+
+timer_int:
+	push %ds
+	pusha
+	mov $0x20, %al
+	outb %al, $0x20
+	popa
+	pop %ds
+	iret
+
+
+
 
 gdt_desc:
 	.word (256 * 8) - 1
 	.long gdt_table
+
+
+idt_desc:
+	.word (256 * 8) - 1
+	.long idt_table
 
