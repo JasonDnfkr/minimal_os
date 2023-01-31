@@ -16,8 +16,10 @@ uint8_t map_phy_buffer[4096] __attribute__((aligned(4096))) = { 0x36, 0x99 };
 static uint32_t page_table[1024] __attribute__((aligned(4096))) = { PDE_U };
 
 uint32_t pg_dir[1024] __attribute__((aligned(4096))) = {
-    [0] = (0) | PDE_P | PDE_W | PDE_U | PDE_PS,
+    [0] = (0) | PDE_P | PDE_W | PDE_U | PDE_PS, // 打开了一个4M -> 4M 的映射页表
 };
+
+uint32_t task0_dpl3_stack[1024];
 
 struct {
     uint16_t offset_l;
@@ -32,8 +34,11 @@ struct {
     uint16_t basehl_attr;
     uint16_t base_limit;
 } gdt_table[256] __attribute__((aligned(8))) = {
+    // 全是 起始地址0，limit全1，
     [KERNEL_CODE_SEG / 8] = { 0xffff, 0x0000, 0x9a00, 0x00cf },
     [KERNEL_DATA_SEG / 8] = { 0xffff, 0x0000, 0x9200, 0x00cf },
+    [APP_CODE_SEG / 8] = { 0xffff, 0x0000, 0xfa00, 0x00cf },
+    [APP_DATA_SEG / 8] = { 0xffff, 0x0000, 0xf300, 0x00cf },
 };
 
 void outb(uint8_t data, uint16_t port) {
