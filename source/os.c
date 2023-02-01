@@ -4,17 +4,43 @@ typedef unsigned char   uint8_t;
 typedef unsigned short  uint16_t;
 typedef unsigned int    uint32_t;
 
+void do_syscall(int func, char* str, char color) {
+    static int row = 1;
+
+    if (func == 2) {
+        unsigned short* dest = (unsigned short*)0xb8000 + 80 * row;
+        while (*str) {
+            *dest++ = *str++ | (color << 8);
+        }
+
+        row = (row >= 25) ? 0 : row + 1;
+    }
+}
+
+void sys_show(char* str, char color) {
+    uint32_t addr[] = { 0, SYSCALL_SEG };
+    __asm__ __volatile__("push %[color]; push %[str]; push %[id]; lcalll *(%[a])"::
+        [a]"r"(addr), [color]"m"(color), [str]"m"(str), [id]"r"(2));
+}
+
 void task_0(void) {
+    char* str = "task a: 1234";
     uint8_t color = 0;
+
+    unsigned short* dest = (unsigned short*) 0xb8000;
+    dest[0] = 'a' | 0x3500;
+    dest[1] = 'b' | 0x4700;
     while (1) {
-        color--;
+        sys_show(str, color++);
     }
 }
 
 void task_1(void) {
+    char* str = "task b: 5678";
+
     uint8_t color = 0xff;
     while (1) {
-        color--;
+        sys_show(str, color--);
     }
 }
 
@@ -78,6 +104,8 @@ struct {
 
     [TASK0_TSS_SEG / 8] = { 0x68, 0, 0xe900, 0x0 },
     [TASK1_TSS_SEG / 8] = { 0x68, 0, 0xe900, 0x0 },
+
+    [SYSCALL_SEG / 8] = { 0, KERNEL_CODE_SEG, 0xec03, 0 },
 };
 
 void outb(uint8_t data, uint16_t port) {
@@ -96,6 +124,7 @@ void task_sched(void) {
 }
 
 void timer_int(void);
+void syscall_handler(void);
  
 #define TEST_ADDR 0x70000000
 #define TEST_ADDR_2 0x12345678
@@ -125,6 +154,7 @@ void os_init(void) {
 
     gdt_table[TASK0_TSS_SEG / 8].base_l = (uint16_t)(uint32_t)task0_tss;
     gdt_table[TASK1_TSS_SEG / 8].base_l = (uint16_t)(uint32_t)task1_tss;
+    gdt_table[SYSCALL_SEG / 8].limit_l = (uint16_t)(uint32_t)syscall_handler;
 
 
 

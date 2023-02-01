@@ -7,35 +7,38 @@ start address 0x00007c00
 
 Program Header:
     LOAD off    0x00000000 vaddr 0x00007000 paddr 0x00007000 align 2**12
-         filesz 0x0000112c memsz 0x0000112c flags r-x
+         filesz 0x000012a4 memsz 0x000012a4 flags r-x
     LOAD off    0x00002000 vaddr 0x00009000 paddr 0x00009000 align 2**12
-         filesz 0x000038ec memsz 0x00008100 flags rw-
+         filesz 0x000038f0 memsz 0x00008100 flags rw-
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         0000047b  00007c00  00007c00  00000c00  2**0
+  0 .text         00000598  00007c00  00007c00  00000c00  2**0
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .eh_frame     000000b0  0000807c  0000807c  0000107c  2**2
+  1 .rodata       0000001a  00008198  00008198  00001198  2**0
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  2 .data         000038ec  00009000  00009000  00002000  2**12
+  2 .eh_frame     000000f0  000081b4  000081b4  000011b4  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  3 .data         000038f0  00009000  00009000  00002000  2**12
                   CONTENTS, ALLOC, LOAD, DATA
-  3 .bss          00004800  0000c900  0000c900  000058ec  2**5
+  4 .bss          00004800  0000c900  0000c900  000058f0  2**5
                   ALLOC
-  4 .comment      00000011  00000000  00000000  000058ec  2**0
+  5 .comment      00000011  00000000  00000000  000058f0  2**0
                   CONTENTS, READONLY
-  5 .debug_aranges 00000040  00000000  00000000  00005900  2**3
+  6 .debug_aranges 00000040  00000000  00000000  00005908  2**3
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   0000032c  00000000  00000000  00005940  2**0
+  7 .debug_info   00000412  00000000  00000000  00005948  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000146  00000000  00000000  00005c6c  2**0
+  8 .debug_abbrev 00000167  00000000  00000000  00005d5a  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   0000010c  00000000  00000000  00005db2  2**0
+  9 .debug_line   00000142  00000000  00000000  00005ec1  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    000001d4  00000000  00000000  00005ebe  2**0
+ 10 .debug_str    000001f2  00000000  00000000  00006003  2**0
                   CONTENTS, READONLY, DEBUGGING
 SYMBOL TABLE:
 00007c00 l    d  .text	00000000 .text
-0000807c l    d  .eh_frame	00000000 .eh_frame
+00008198 l    d  .rodata	00000000 .rodata
+000081b4 l    d  .eh_frame	00000000 .eh_frame
 00009000 l    d  .data	00000000 .data
 0000c900 l    d  .bss	00000000 .bss
 00000000 l    d  .comment	00000000 .comment
@@ -47,32 +50,36 @@ SYMBOL TABLE:
 00000000 l    df *ABS*	00000000 start.o
 00007c13 l       .text	00000000 read_self_all
 00007e00 l       .text	00000000 _start_32
-00007e6f l       .text	00000000 gdt_desc
-00007e75 l       .text	00000000 idt_desc
-00007e5f l       .text	00000000 task_0_entry
+00007e8f l       .text	00000000 gdt_desc
+00007e95 l       .text	00000000 idt_desc
+00007e7f l       .text	00000000 task_0_entry
 00000000 l    df *ABS*	00000000 os.c
+0000c8e8 l     O .data	00000004 row.1736
 0000a000 l     O .data	00001000 page_table
-0000c8e8 l     O .data	00000004 task_tss.1769
+0000c8ec l     O .data	00000004 task_tss.1787
 0000c0e8 g     O .data	00000800 gdt_table
 0000d100 g     O .bss	00001000 task0_dpl3_stack
 0000e100 g     O .bss	00001000 task1_dpl3_stack
-00007e7b g     F .text	00000016 task_0
+00007f19 g     F .text	0000002e sys_show
+00007f47 g     F .text	00000046 task_0
 0000c000 g     O .data	00000068 task0_tss
 00009000 g     O .data	00001000 map_phy_buffer
 00007e4b g       .text	00000000 timer_int
-00007efe g     F .text	0000017d os_init
+00008010 g     F .text	00000188 os_init
 0000f100 g     O .bss	00001000 task1_dpl0_stack
 0000c080 g     O .data	00000068 task1_tss
+00007e9b g     F .text	0000007e do_syscall
 00007c00 g       .text	00000000 _start
-00007ea7 g     F .text	0000001f outb
-0000c8ec g       .bss	00000000 __bss_start
+00007fb9 g     F .text	0000001f outb
+0000c8f0 g       .bss	00000000 __bss_start
 0000b000 g     O .data	00001000 pg_dir
-0000c8ec g       .data	00000000 _edata
+0000c8f0 g       .data	00000000 _edata
 00011100 g       .bss	00000000 _end
-00007e91 g     F .text	00000016 task_1
+00007e5f g       .text	00000000 syscall_handler
+00007f8d g     F .text	0000002c task_1
 0000c900 g     O .bss	00000800 idt_table
 00010100 g     O .bss	00001000 task0_dpl0_stack
-00007ec6 g     F .text	00000038 task_sched
+00007fd8 g     F .text	00000038 task_sched
 
 
 
@@ -124,14 +131,14 @@ read_self_all:
 
 	lgdt gdt_desc    # load GDT
     7c24:	0f 01 16             	lgdtl  (%esi)
-    7c27:	6f                   	outsl  %ds:(%esi),(%dx)
+    7c27:	8f                   	(bad)  
     7c28:	7e 0f                	jle    7c39 <read_self_all+0x26>
 	lidt idt_desc	 # load IDT
     7c2a:	01 1e                	add    %ebx,(%esi)
-    7c2c:	75 7e                	jne    7cac <read_self_all+0x99>
+    7c2c:	95                   	xchg   %eax,%ebp
+    7c2d:	7e 66                	jle    7c95 <read_self_all+0x82>
 	mov $1, %eax
-    7c2e:	66 b8 01 00          	mov    $0x1,%ax
-    7c32:	00 00                	add    %al,(%eax)
+    7c2f:	b8 01 00 00 00       	mov    $0x1,%eax
 	lmsw %ax         # CR0 = 1 CPU从此进入保护模式
     7c34:	0f 01 f0             	lmsw   %ax
 
@@ -163,7 +170,7 @@ _start_32:
 
 
 	call os_init
-    7e0f:	e8 ea 00 00 00       	call   7efe <os_init>
+    7e0f:	e8 fc 01 00 00       	call   8010 <os_init>
 	mov $pg_dir, %eax
     7e14:	b8 00 b0 00 00       	mov    $0xb000,%eax
 	mov %eax, %cr3   # 分页相关
@@ -199,7 +206,7 @@ _start_32:
 	push $APP_CODE_SEG
     7e43:	6a 1b                	push   $0x1b
 	push $task_0_entry
-    7e45:	68 5f 7e 00 00       	push   $0x7e5f
+    7e45:	68 7f 7e 00 00       	push   $0x7e7f
 
 	iret
     7e4a:	cf                   	iret   
@@ -222,8 +229,8 @@ timer_int:
     7e55:	8e d8                	mov    %eax,%ds
 
 	call task_sched
-    7e57:	e8 6a 00 00 00       	call   7ec6 <task_sched>
-	
+    7e57:	e8 7c 01 00 00       	call   7fd8 <task_sched>
+
 	popa
     7e5c:	61                   	popa   
 	pop %ds
@@ -231,268 +238,414 @@ timer_int:
 	iret
     7e5e:	cf                   	iret   
 
-00007e5f <task_0_entry>:
+00007e5f <syscall_handler>:
+
+syscall_handler:
+	push %ds
+    7e5f:	1e                   	push   %ds
+	pusha
+    7e60:	60                   	pusha  
+
+	mov $KERNEL_DATA_SEG, %ax
+    7e61:	66 b8 10 00          	mov    $0x10,%ax
+	mov %ax, %ds
+    7e65:	8e d8                	mov    %eax,%ds
+
+	mov %esp, %ebp
+    7e67:	89 e5                	mov    %esp,%ebp
+	push 13 * 4(%ebp)
+    7e69:	ff 75 34             	pushl  0x34(%ebp)
+	push 12 * 4(%ebp)
+    7e6c:	ff 75 30             	pushl  0x30(%ebp)
+	push 11 * 4(%ebp)
+    7e6f:	ff 75 2c             	pushl  0x2c(%ebp)
+	call do_syscall
+    7e72:	e8 24 00 00 00       	call   7e9b <do_syscall>
+	add $(3 * 4), %esp
+    7e77:	83 c4 0c             	add    $0xc,%esp
+
+	popa
+    7e7a:	61                   	popa   
+	pop %ds
+    7e7b:	1f                   	pop    %ds
+
+	retf $(3 * 4)
+    7e7c:	ca 0c 00             	lret   $0xc
+
+00007e7f <task_0_entry>:
 
 
 task_0_entry:
 	mov %ss, %ax
-    7e5f:	66 8c d0             	mov    %ss,%ax
+    7e7f:	66 8c d0             	mov    %ss,%ax
 	mov %ax, %ds
-    7e62:	8e d8                	mov    %eax,%ds
+    7e82:	8e d8                	mov    %eax,%ds
 	mov %ax, %es
-    7e64:	8e c0                	mov    %eax,%es
+    7e84:	8e c0                	mov    %eax,%es
 	mov %ax, %gs
-    7e66:	8e e8                	mov    %eax,%gs
+    7e86:	8e e8                	mov    %eax,%gs
 	mov %ax, %fs
-    7e68:	8e e0                	mov    %eax,%fs
+    7e88:	8e e0                	mov    %eax,%fs
 	jmp task_0
-    7e6a:	e9 0c 00 00 00       	jmp    7e7b <task_0>
+    7e8a:	e9 b8 00 00 00       	jmp    7f47 <task_0>
 
-00007e6f <gdt_desc>:
-    7e6f:	ff 07                	incl   (%edi)
-    7e71:	e8                   	.byte 0xe8
-    7e72:	c0 00 00             	rolb   $0x0,(%eax)
+00007e8f <gdt_desc>:
+    7e8f:	ff 07                	incl   (%edi)
+    7e91:	e8                   	.byte 0xe8
+    7e92:	c0 00 00             	rolb   $0x0,(%eax)
 
-00007e75 <idt_desc>:
-    7e75:	ff 07                	incl   (%edi)
-    7e77:	00 c9                	add    %cl,%cl
+00007e95 <idt_desc>:
+    7e95:	ff 07                	incl   (%edi)
+    7e97:	00 c9                	add    %cl,%cl
 	...
 
-00007e7b <task_0>:
+00007e9b <do_syscall>:
 
 typedef unsigned char   uint8_t;
 typedef unsigned short  uint16_t;
 typedef unsigned int    uint32_t;
 
-void task_0(void) {
-    7e7b:	55                   	push   %ebp
-    7e7c:	89 e5                	mov    %esp,%ebp
-    7e7e:	83 ec 10             	sub    $0x10,%esp
-    uint8_t color = 0;
-    7e81:	c6 45 ff 00          	movb   $0x0,-0x1(%ebp)
-    while (1) {
-        color--;
-    7e85:	0f b6 45 ff          	movzbl -0x1(%ebp),%eax
-    7e89:	83 e8 01             	sub    $0x1,%eax
-    7e8c:	88 45 ff             	mov    %al,-0x1(%ebp)
-    7e8f:	eb f4                	jmp    7e85 <task_0+0xa>
+void do_syscall(int func, char* str, char color) {
+    7e9b:	55                   	push   %ebp
+    7e9c:	89 e5                	mov    %esp,%ebp
+    7e9e:	83 ec 14             	sub    $0x14,%esp
+    7ea1:	8b 45 10             	mov    0x10(%ebp),%eax
+    7ea4:	88 45 ec             	mov    %al,-0x14(%ebp)
+    static int row = 1;
 
-00007e91 <task_1>:
+    if (func == 2) {
+    7ea7:	83 7d 08 02          	cmpl   $0x2,0x8(%ebp)
+    7eab:	75 69                	jne    7f16 <do_syscall+0x7b>
+        unsigned short* dest = (unsigned short*)0xb8000 + 80 * row;
+    7ead:	8b 15 e8 c8 00 00    	mov    0xc8e8,%edx
+    7eb3:	89 d0                	mov    %edx,%eax
+    7eb5:	c1 e0 02             	shl    $0x2,%eax
+    7eb8:	01 d0                	add    %edx,%eax
+    7eba:	c1 e0 05             	shl    $0x5,%eax
+    7ebd:	05 00 80 0b 00       	add    $0xb8000,%eax
+    7ec2:	89 45 fc             	mov    %eax,-0x4(%ebp)
+        while (*str) {
+    7ec5:	eb 27                	jmp    7eee <do_syscall+0x53>
+            *dest++ = *str++ | (color << 8);
+    7ec7:	8b 45 0c             	mov    0xc(%ebp),%eax
+    7eca:	8d 50 01             	lea    0x1(%eax),%edx
+    7ecd:	89 55 0c             	mov    %edx,0xc(%ebp)
+    7ed0:	0f b6 00             	movzbl (%eax),%eax
+    7ed3:	66 98                	cbtw   
+    7ed5:	0f be 55 ec          	movsbl -0x14(%ebp),%edx
+    7ed9:	c1 e2 08             	shl    $0x8,%edx
+    7edc:	09 d0                	or     %edx,%eax
+    7ede:	89 c1                	mov    %eax,%ecx
+    7ee0:	8b 45 fc             	mov    -0x4(%ebp),%eax
+    7ee3:	8d 50 02             	lea    0x2(%eax),%edx
+    7ee6:	89 55 fc             	mov    %edx,-0x4(%ebp)
+    7ee9:	89 ca                	mov    %ecx,%edx
+    7eeb:	66 89 10             	mov    %dx,(%eax)
+        while (*str) {
+    7eee:	8b 45 0c             	mov    0xc(%ebp),%eax
+    7ef1:	0f b6 00             	movzbl (%eax),%eax
+    7ef4:	84 c0                	test   %al,%al
+    7ef6:	75 cf                	jne    7ec7 <do_syscall+0x2c>
+        }
+
+        row = (row >= 25) ? 0 : row + 1;
+    7ef8:	a1 e8 c8 00 00       	mov    0xc8e8,%eax
+    7efd:	83 f8 18             	cmp    $0x18,%eax
+    7f00:	7f 0a                	jg     7f0c <do_syscall+0x71>
+    7f02:	a1 e8 c8 00 00       	mov    0xc8e8,%eax
+    7f07:	83 c0 01             	add    $0x1,%eax
+    7f0a:	eb 05                	jmp    7f11 <do_syscall+0x76>
+    7f0c:	b8 00 00 00 00       	mov    $0x0,%eax
+    7f11:	a3 e8 c8 00 00       	mov    %eax,0xc8e8
+    }
+}
+    7f16:	90                   	nop
+    7f17:	c9                   	leave  
+    7f18:	c3                   	ret    
+
+00007f19 <sys_show>:
+
+void sys_show(char* str, char color) {
+    7f19:	55                   	push   %ebp
+    7f1a:	89 e5                	mov    %esp,%ebp
+    7f1c:	83 ec 14             	sub    $0x14,%esp
+    7f1f:	8b 45 0c             	mov    0xc(%ebp),%eax
+    7f22:	88 45 ec             	mov    %al,-0x14(%ebp)
+    uint32_t addr[] = { 0, SYSCALL_SEG };
+    7f25:	c7 45 f8 00 00 00 00 	movl   $0x0,-0x8(%ebp)
+    7f2c:	c7 45 fc 38 00 00 00 	movl   $0x38,-0x4(%ebp)
+    __asm__ __volatile__("push %[color]; push %[str]; push %[id]; lcalll *(%[a])"::
+    7f33:	8d 45 f8             	lea    -0x8(%ebp),%eax
+    7f36:	ba 02 00 00 00       	mov    $0x2,%edx
+    7f3b:	ff 75 ec             	pushl  -0x14(%ebp)
+    7f3e:	ff 75 08             	pushl  0x8(%ebp)
+    7f41:	52                   	push   %edx
+    7f42:	ff 18                	lcall  *(%eax)
+        [a]"r"(addr), [color]"m"(color), [str]"m"(str), [id]"r"(2));
+}
+    7f44:	90                   	nop
+    7f45:	c9                   	leave  
+    7f46:	c3                   	ret    
+
+00007f47 <task_0>:
+
+void task_0(void) {
+    7f47:	55                   	push   %ebp
+    7f48:	89 e5                	mov    %esp,%ebp
+    7f4a:	83 ec 10             	sub    $0x10,%esp
+    char* str = "task a: 1234";
+    7f4d:	c7 45 f8 98 81 00 00 	movl   $0x8198,-0x8(%ebp)
+    uint8_t color = 0;
+    7f54:	c6 45 ff 00          	movb   $0x0,-0x1(%ebp)
+
+    unsigned short* dest = (unsigned short*) 0xb8000;
+    7f58:	c7 45 f4 00 80 0b 00 	movl   $0xb8000,-0xc(%ebp)
+    dest[0] = 'a' | 0x3500;
+    7f5f:	8b 45 f4             	mov    -0xc(%ebp),%eax
+    7f62:	66 c7 00 61 35       	movw   $0x3561,(%eax)
+    dest[1] = 'b' | 0x4700;
+    7f67:	8b 45 f4             	mov    -0xc(%ebp),%eax
+    7f6a:	83 c0 02             	add    $0x2,%eax
+    7f6d:	66 c7 00 62 47       	movw   $0x4762,(%eax)
+    while (1) {
+        sys_show(str, color++);
+    7f72:	0f b6 45 ff          	movzbl -0x1(%ebp),%eax
+    7f76:	8d 50 01             	lea    0x1(%eax),%edx
+    7f79:	88 55 ff             	mov    %dl,-0x1(%ebp)
+    7f7c:	0f be c0             	movsbl %al,%eax
+    7f7f:	50                   	push   %eax
+    7f80:	ff 75 f8             	pushl  -0x8(%ebp)
+    7f83:	e8 91 ff ff ff       	call   7f19 <sys_show>
+    7f88:	83 c4 08             	add    $0x8,%esp
+    7f8b:	eb e5                	jmp    7f72 <task_0+0x2b>
+
+00007f8d <task_1>:
     }
 }
 
 void task_1(void) {
-    7e91:	55                   	push   %ebp
-    7e92:	89 e5                	mov    %esp,%ebp
-    7e94:	83 ec 10             	sub    $0x10,%esp
+    7f8d:	55                   	push   %ebp
+    7f8e:	89 e5                	mov    %esp,%ebp
+    7f90:	83 ec 10             	sub    $0x10,%esp
+    char* str = "task b: 5678";
+    7f93:	c7 45 f8 a5 81 00 00 	movl   $0x81a5,-0x8(%ebp)
+
     uint8_t color = 0xff;
-    7e97:	c6 45 ff ff          	movb   $0xff,-0x1(%ebp)
+    7f9a:	c6 45 ff ff          	movb   $0xff,-0x1(%ebp)
     while (1) {
-        color--;
-    7e9b:	0f b6 45 ff          	movzbl -0x1(%ebp),%eax
-    7e9f:	83 e8 01             	sub    $0x1,%eax
-    7ea2:	88 45 ff             	mov    %al,-0x1(%ebp)
-    7ea5:	eb f4                	jmp    7e9b <task_1+0xa>
+        sys_show(str, color--);
+    7f9e:	0f b6 45 ff          	movzbl -0x1(%ebp),%eax
+    7fa2:	8d 50 ff             	lea    -0x1(%eax),%edx
+    7fa5:	88 55 ff             	mov    %dl,-0x1(%ebp)
+    7fa8:	0f be c0             	movsbl %al,%eax
+    7fab:	50                   	push   %eax
+    7fac:	ff 75 f8             	pushl  -0x8(%ebp)
+    7faf:	e8 65 ff ff ff       	call   7f19 <sys_show>
+    7fb4:	83 c4 08             	add    $0x8,%esp
+    7fb7:	eb e5                	jmp    7f9e <task_1+0x11>
 
-00007ea7 <outb>:
-
-    [TASK0_TSS_SEG / 8] = { 0x68, 0, 0xe900, 0x0 },
+00007fb9 <outb>:
     [TASK1_TSS_SEG / 8] = { 0x68, 0, 0xe900, 0x0 },
+
+    [SYSCALL_SEG / 8] = { 0, KERNEL_CODE_SEG, 0xec03, 0 },
 };
 
 void outb(uint8_t data, uint16_t port) {
-    7ea7:	55                   	push   %ebp
-    7ea8:	89 e5                	mov    %esp,%ebp
-    7eaa:	83 ec 08             	sub    $0x8,%esp
-    7ead:	8b 55 08             	mov    0x8(%ebp),%edx
-    7eb0:	8b 45 0c             	mov    0xc(%ebp),%eax
-    7eb3:	88 55 fc             	mov    %dl,-0x4(%ebp)
-    7eb6:	66 89 45 f8          	mov    %ax,-0x8(%ebp)
+    7fb9:	55                   	push   %ebp
+    7fba:	89 e5                	mov    %esp,%ebp
+    7fbc:	83 ec 08             	sub    $0x8,%esp
+    7fbf:	8b 55 08             	mov    0x8(%ebp),%edx
+    7fc2:	8b 45 0c             	mov    0xc(%ebp),%eax
+    7fc5:	88 55 fc             	mov    %dl,-0x4(%ebp)
+    7fc8:	66 89 45 f8          	mov    %ax,-0x8(%ebp)
     __asm__ __volatile__("outb %[v], %[p]"::[p]"d"(port), [v]"a"(data));
-    7eba:	0f b7 55 f8          	movzwl -0x8(%ebp),%edx
-    7ebe:	0f b6 45 fc          	movzbl -0x4(%ebp),%eax
-    7ec2:	ee                   	out    %al,(%dx)
+    7fcc:	0f b7 55 f8          	movzwl -0x8(%ebp),%edx
+    7fd0:	0f b6 45 fc          	movzbl -0x4(%ebp),%eax
+    7fd4:	ee                   	out    %al,(%dx)
 }
-    7ec3:	90                   	nop
-    7ec4:	c9                   	leave  
-    7ec5:	c3                   	ret    
+    7fd5:	90                   	nop
+    7fd6:	c9                   	leave  
+    7fd7:	c3                   	ret    
 
-00007ec6 <task_sched>:
+00007fd8 <task_sched>:
 
 
 void task_sched(void) {
-    7ec6:	55                   	push   %ebp
-    7ec7:	89 e5                	mov    %esp,%ebp
-    7ec9:	83 ec 10             	sub    $0x10,%esp
+    7fd8:	55                   	push   %ebp
+    7fd9:	89 e5                	mov    %esp,%ebp
+    7fdb:	83 ec 10             	sub    $0x10,%esp
     static int task_tss = TASK0_TSS_SEG;
 
     task_tss = (task_tss == TASK0_TSS_SEG) ? TASK1_TSS_SEG : TASK0_TSS_SEG;
-    7ecc:	a1 e8 c8 00 00       	mov    0xc8e8,%eax
-    7ed1:	83 f8 28             	cmp    $0x28,%eax
-    7ed4:	75 07                	jne    7edd <task_sched+0x17>
-    7ed6:	b8 30 00 00 00       	mov    $0x30,%eax
-    7edb:	eb 05                	jmp    7ee2 <task_sched+0x1c>
-    7edd:	b8 28 00 00 00       	mov    $0x28,%eax
-    7ee2:	a3 e8 c8 00 00       	mov    %eax,0xc8e8
+    7fde:	a1 ec c8 00 00       	mov    0xc8ec,%eax
+    7fe3:	83 f8 28             	cmp    $0x28,%eax
+    7fe6:	75 07                	jne    7fef <task_sched+0x17>
+    7fe8:	b8 30 00 00 00       	mov    $0x30,%eax
+    7fed:	eb 05                	jmp    7ff4 <task_sched+0x1c>
+    7fef:	b8 28 00 00 00       	mov    $0x28,%eax
+    7ff4:	a3 ec c8 00 00       	mov    %eax,0xc8ec
 
     // 偏移，选择子?? 
     uint32_t addr[] = { 0, task_tss };
-    7ee7:	c7 45 f8 00 00 00 00 	movl   $0x0,-0x8(%ebp)
-    7eee:	a1 e8 c8 00 00       	mov    0xc8e8,%eax
-    7ef3:	89 45 fc             	mov    %eax,-0x4(%ebp)
+    7ff9:	c7 45 f8 00 00 00 00 	movl   $0x0,-0x8(%ebp)
+    8000:	a1 ec c8 00 00       	mov    0xc8ec,%eax
+    8005:	89 45 fc             	mov    %eax,-0x4(%ebp)
     __asm__ __volatile__("ljmpl *(%[a])"::[a]"r"(addr));
-    7ef6:	8d 45 f8             	lea    -0x8(%ebp),%eax
-    7ef9:	ff 28                	ljmp   *(%eax)
+    8008:	8d 45 f8             	lea    -0x8(%ebp),%eax
+    800b:	ff 28                	ljmp   *(%eax)
 }
-    7efb:	90                   	nop
-    7efc:	c9                   	leave  
-    7efd:	c3                   	ret    
+    800d:	90                   	nop
+    800e:	c9                   	leave  
+    800f:	c3                   	ret    
 
-00007efe <os_init>:
-
+00008010 <os_init>:
 void timer_int(void);
+void syscall_handler(void);
  
 #define TEST_ADDR 0x70000000
 #define TEST_ADDR_2 0x12345678
 void os_init(void) {
-    7efe:	55                   	push   %ebp
-    7eff:	89 e5                	mov    %esp,%ebp
-    7f01:	83 ec 10             	sub    $0x10,%esp
+    8010:	55                   	push   %ebp
+    8011:	89 e5                	mov    %esp,%ebp
+    8013:	83 ec 10             	sub    $0x10,%esp
     // 对定时器硬件进行配置，使得CPU只接收时钟中断
     // 初始化8259中断控制器，打开定时器中断
     outb(0x11, 0x20);       // 开始初始化主芯片
-    7f04:	6a 20                	push   $0x20
-    7f06:	6a 11                	push   $0x11
-    7f08:	e8 9a ff ff ff       	call   7ea7 <outb>
-    7f0d:	83 c4 08             	add    $0x8,%esp
+    8016:	6a 20                	push   $0x20
+    8018:	6a 11                	push   $0x11
+    801a:	e8 9a ff ff ff       	call   7fb9 <outb>
+    801f:	83 c4 08             	add    $0x8,%esp
     outb(0x11, 0xA0);       // 初始化从芯片
-    7f10:	68 a0 00 00 00       	push   $0xa0
-    7f15:	6a 11                	push   $0x11
-    7f17:	e8 8b ff ff ff       	call   7ea7 <outb>
-    7f1c:	83 c4 08             	add    $0x8,%esp
+    8022:	68 a0 00 00 00       	push   $0xa0
+    8027:	6a 11                	push   $0x11
+    8029:	e8 8b ff ff ff       	call   7fb9 <outb>
+    802e:	83 c4 08             	add    $0x8,%esp
     outb(0x20, 0x21);       // 写ICW2，告诉主芯片中断向量从0x20开始
-    7f1f:	6a 21                	push   $0x21
-    7f21:	6a 20                	push   $0x20
-    7f23:	e8 7f ff ff ff       	call   7ea7 <outb>
-    7f28:	83 c4 08             	add    $0x8,%esp
+    8031:	6a 21                	push   $0x21
+    8033:	6a 20                	push   $0x20
+    8035:	e8 7f ff ff ff       	call   7fb9 <outb>
+    803a:	83 c4 08             	add    $0x8,%esp
     outb(0x28, 0xa1);       // 写ICW2，告诉从芯片中断向量从0x28开始
-    7f2b:	68 a1 00 00 00       	push   $0xa1
-    7f30:	6a 28                	push   $0x28
-    7f32:	e8 70 ff ff ff       	call   7ea7 <outb>
-    7f37:	83 c4 08             	add    $0x8,%esp
+    803d:	68 a1 00 00 00       	push   $0xa1
+    8042:	6a 28                	push   $0x28
+    8044:	e8 70 ff ff ff       	call   7fb9 <outb>
+    8049:	83 c4 08             	add    $0x8,%esp
     outb((1 << 2), 0x21);   // 写ICW3，告诉主芯片IRQ2上连接有从芯片
-    7f3a:	6a 21                	push   $0x21
-    7f3c:	6a 04                	push   $0x4
-    7f3e:	e8 64 ff ff ff       	call   7ea7 <outb>
-    7f43:	83 c4 08             	add    $0x8,%esp
+    804c:	6a 21                	push   $0x21
+    804e:	6a 04                	push   $0x4
+    8050:	e8 64 ff ff ff       	call   7fb9 <outb>
+    8055:	83 c4 08             	add    $0x8,%esp
     outb(2, 0xa1);          // 写ICW3，告诉从芯片连接g到主芯片的IRQ2上
-    7f46:	68 a1 00 00 00       	push   $0xa1
-    7f4b:	6a 02                	push   $0x2
-    7f4d:	e8 55 ff ff ff       	call   7ea7 <outb>
-    7f52:	83 c4 08             	add    $0x8,%esp
+    8058:	68 a1 00 00 00       	push   $0xa1
+    805d:	6a 02                	push   $0x2
+    805f:	e8 55 ff ff ff       	call   7fb9 <outb>
+    8064:	83 c4 08             	add    $0x8,%esp
     outb(0x1, 0x21);        // 写ICW4，告诉主芯片8086、普通EOI、非缓冲模式
-    7f55:	6a 21                	push   $0x21
-    7f57:	6a 01                	push   $0x1
-    7f59:	e8 49 ff ff ff       	call   7ea7 <outb>
-    7f5e:	83 c4 08             	add    $0x8,%esp
+    8067:	6a 21                	push   $0x21
+    8069:	6a 01                	push   $0x1
+    806b:	e8 49 ff ff ff       	call   7fb9 <outb>
+    8070:	83 c4 08             	add    $0x8,%esp
     outb(0x1, 0xa1);        // 写ICW4，告诉主芯片8086、普通EOI、非缓冲模式
-    7f61:	68 a1 00 00 00       	push   $0xa1
-    7f66:	6a 01                	push   $0x1
-    7f68:	e8 3a ff ff ff       	call   7ea7 <outb>
-    7f6d:	83 c4 08             	add    $0x8,%esp
+    8073:	68 a1 00 00 00       	push   $0xa1
+    8078:	6a 01                	push   $0x1
+    807a:	e8 3a ff ff ff       	call   7fb9 <outb>
+    807f:	83 c4 08             	add    $0x8,%esp
     outb(0xfe, 0x21);       // 开定时中断，其它屏蔽
-    7f70:	6a 21                	push   $0x21
-    7f72:	68 fe 00 00 00       	push   $0xfe
-    7f77:	e8 2b ff ff ff       	call   7ea7 <outb>
-    7f7c:	83 c4 08             	add    $0x8,%esp
+    8082:	6a 21                	push   $0x21
+    8084:	68 fe 00 00 00       	push   $0xfe
+    8089:	e8 2b ff ff ff       	call   7fb9 <outb>
+    808e:	83 c4 08             	add    $0x8,%esp
     outb(0xff, 0xa1);       // 屏蔽所有中断
-    7f7f:	68 a1 00 00 00       	push   $0xa1
-    7f84:	68 ff 00 00 00       	push   $0xff
-    7f89:	e8 19 ff ff ff       	call   7ea7 <outb>
-    7f8e:	83 c4 08             	add    $0x8,%esp
+    8091:	68 a1 00 00 00       	push   $0xa1
+    8096:	68 ff 00 00 00       	push   $0xff
+    809b:	e8 19 ff ff ff       	call   7fb9 <outb>
+    80a0:	83 c4 08             	add    $0x8,%esp
 
     int tmo = 1193180 / 100;
-    7f91:	c7 45 fc 9b 2e 00 00 	movl   $0x2e9b,-0x4(%ebp)
+    80a3:	c7 45 fc 9b 2e 00 00 	movl   $0x2e9b,-0x4(%ebp)
     outb(0x36, 0x43);               // 二进制计数、模式3、通道0
-    7f98:	6a 43                	push   $0x43
-    7f9a:	6a 36                	push   $0x36
-    7f9c:	e8 06 ff ff ff       	call   7ea7 <outb>
-    7fa1:	83 c4 08             	add    $0x8,%esp
+    80aa:	6a 43                	push   $0x43
+    80ac:	6a 36                	push   $0x36
+    80ae:	e8 06 ff ff ff       	call   7fb9 <outb>
+    80b3:	83 c4 08             	add    $0x8,%esp
     outb((uint8_t)tmo, 0x40);
-    7fa4:	8b 45 fc             	mov    -0x4(%ebp),%eax
-    7fa7:	0f b6 c0             	movzbl %al,%eax
-    7faa:	6a 40                	push   $0x40
-    7fac:	50                   	push   %eax
-    7fad:	e8 f5 fe ff ff       	call   7ea7 <outb>
-    7fb2:	83 c4 08             	add    $0x8,%esp
+    80b6:	8b 45 fc             	mov    -0x4(%ebp),%eax
+    80b9:	0f b6 c0             	movzbl %al,%eax
+    80bc:	6a 40                	push   $0x40
+    80be:	50                   	push   %eax
+    80bf:	e8 f5 fe ff ff       	call   7fb9 <outb>
+    80c4:	83 c4 08             	add    $0x8,%esp
     outb(tmo >> 8, 0x40);    
-    7fb5:	8b 45 fc             	mov    -0x4(%ebp),%eax
-    7fb8:	c1 f8 08             	sar    $0x8,%eax
-    7fbb:	0f b6 c0             	movzbl %al,%eax
-    7fbe:	6a 40                	push   $0x40
-    7fc0:	50                   	push   %eax
-    7fc1:	e8 e1 fe ff ff       	call   7ea7 <outb>
-    7fc6:	83 c4 08             	add    $0x8,%esp
+    80c7:	8b 45 fc             	mov    -0x4(%ebp),%eax
+    80ca:	c1 f8 08             	sar    $0x8,%eax
+    80cd:	0f b6 c0             	movzbl %al,%eax
+    80d0:	6a 40                	push   $0x40
+    80d2:	50                   	push   %eax
+    80d3:	e8 e1 fe ff ff       	call   7fb9 <outb>
+    80d8:	83 c4 08             	add    $0x8,%esp
     
     idt_table[0x20].offset_l = (uint32_t)timer_int & 0xffff;
-    7fc9:	b8 4b 7e 00 00       	mov    $0x7e4b,%eax
-    7fce:	66 a3 00 ca 00 00    	mov    %ax,0xca00
+    80db:	b8 4b 7e 00 00       	mov    $0x7e4b,%eax
+    80e0:	66 a3 00 ca 00 00    	mov    %ax,0xca00
     idt_table[0x20].offset_h = (uint32_t)timer_int >> 16;
-    7fd4:	b8 4b 7e 00 00       	mov    $0x7e4b,%eax
-    7fd9:	c1 e8 10             	shr    $0x10,%eax
-    7fdc:	66 a3 06 ca 00 00    	mov    %ax,0xca06
+    80e6:	b8 4b 7e 00 00       	mov    $0x7e4b,%eax
+    80eb:	c1 e8 10             	shr    $0x10,%eax
+    80ee:	66 a3 06 ca 00 00    	mov    %ax,0xca06
     idt_table[0x20].selector = KERNEL_CODE_SEG;
-    7fe2:	66 c7 05 02 ca 00 00 	movw   $0x8,0xca02
-    7fe9:	08 00 
+    80f4:	66 c7 05 02 ca 00 00 	movw   $0x8,0xca02
+    80fb:	08 00 
     idt_table[0x20].attr     = 0x8e00;
-    7feb:	66 c7 05 04 ca 00 00 	movw   $0x8e00,0xca04
-    7ff2:	00 8e 
+    80fd:	66 c7 05 04 ca 00 00 	movw   $0x8e00,0xca04
+    8104:	00 8e 
 
     gdt_table[TASK0_TSS_SEG / 8].base_l = (uint16_t)(uint32_t)task0_tss;
-    7ff4:	b8 00 c0 00 00       	mov    $0xc000,%eax
-    7ff9:	66 a3 12 c1 00 00    	mov    %ax,0xc112
+    8106:	b8 00 c0 00 00       	mov    $0xc000,%eax
+    810b:	66 a3 12 c1 00 00    	mov    %ax,0xc112
     gdt_table[TASK1_TSS_SEG / 8].base_l = (uint16_t)(uint32_t)task1_tss;
-    7fff:	b8 80 c0 00 00       	mov    $0xc080,%eax
-    8004:	66 a3 1a c1 00 00    	mov    %ax,0xc11a
+    8111:	b8 80 c0 00 00       	mov    $0xc080,%eax
+    8116:	66 a3 1a c1 00 00    	mov    %ax,0xc11a
+    gdt_table[SYSCALL_SEG / 8].limit_l = (uint16_t)(uint32_t)syscall_handler;
+    811c:	b8 5f 7e 00 00       	mov    $0x7e5f,%eax
+    8121:	66 a3 20 c1 00 00    	mov    %ax,0xc120
 
 
 
     pg_dir[MAP_ADDR >> 22] = (uint32_t)page_table | PDE_P | PDE_W | PDE_U;
-    800a:	b8 00 a0 00 00       	mov    $0xa000,%eax
-    800f:	83 c8 07             	or     $0x7,%eax
-    8012:	a3 00 b8 00 00       	mov    %eax,0xb800
+    8127:	b8 00 a0 00 00       	mov    $0xa000,%eax
+    812c:	83 c8 07             	or     $0x7,%eax
+    812f:	a3 00 b8 00 00       	mov    %eax,0xb800
     page_table[(MAP_ADDR >> 12) & 0x3ff] = (uint32_t)map_phy_buffer | PDE_P | PDE_W | PDE_U;
-    8017:	b8 00 90 00 00       	mov    $0x9000,%eax
-    801c:	83 c8 07             	or     $0x7,%eax
-    801f:	a3 00 a0 00 00       	mov    %eax,0xa000
+    8134:	b8 00 90 00 00       	mov    $0x9000,%eax
+    8139:	83 c8 07             	or     $0x7,%eax
+    813c:	a3 00 a0 00 00       	mov    %eax,0xa000
     
     pg_dir[TEST_ADDR >> 22] = (uint32_t)page_table | PDE_P | PDE_W | PDE_U;
-    8024:	b8 00 a0 00 00       	mov    $0xa000,%eax
-    8029:	83 c8 07             	or     $0x7,%eax
-    802c:	a3 00 b7 00 00       	mov    %eax,0xb700
+    8141:	b8 00 a0 00 00       	mov    $0xa000,%eax
+    8146:	83 c8 07             	or     $0x7,%eax
+    8149:	a3 00 b7 00 00       	mov    %eax,0xb700
     page_table[(TEST_ADDR >> 12) & 0x3ff] = (uint32_t)map_phy_buffer | PDE_P | PDE_W | PDE_U;
-    8031:	b8 00 90 00 00       	mov    $0x9000,%eax
-    8036:	83 c8 07             	or     $0x7,%eax
-    8039:	a3 00 a0 00 00       	mov    %eax,0xa000
+    814e:	b8 00 90 00 00       	mov    $0x9000,%eax
+    8153:	83 c8 07             	or     $0x7,%eax
+    8156:	a3 00 a0 00 00       	mov    %eax,0xa000
 
     pg_dir[TEST_ADDR_2 >> 22] = (uint32_t)page_table | PDE_P | PDE_W | PDE_U;
-    803e:	b8 00 a0 00 00       	mov    $0xa000,%eax
-    8043:	83 c8 07             	or     $0x7,%eax
-    8046:	a3 20 b1 00 00       	mov    %eax,0xb120
+    815b:	b8 00 a0 00 00       	mov    $0xa000,%eax
+    8160:	83 c8 07             	or     $0x7,%eax
+    8163:	a3 20 b1 00 00       	mov    %eax,0xb120
     page_table[(TEST_ADDR_2 >> 12) & 0x3ff] = (uint32_t)map_phy_buffer | PDE_P | PDE_W | PDE_U;
-    804b:	b8 00 90 00 00       	mov    $0x9000,%eax
-    8050:	83 c8 07             	or     $0x7,%eax
-    8053:	a3 14 ad 00 00       	mov    %eax,0xad14
+    8168:	b8 00 90 00 00       	mov    $0x9000,%eax
+    816d:	83 c8 07             	or     $0x7,%eax
+    8170:	a3 14 ad 00 00       	mov    %eax,0xad14
 
     uint32_t addr1 = TEST_ADDR;
-    8058:	c7 45 f8 00 00 00 70 	movl   $0x70000000,-0x8(%ebp)
+    8175:	c7 45 f8 00 00 00 70 	movl   $0x70000000,-0x8(%ebp)
     *((uint32_t*)TEST_ADDR) = 66;
-    805f:	b8 00 00 00 70       	mov    $0x70000000,%eax
-    8064:	c7 00 42 00 00 00    	movl   $0x42,(%eax)
+    817c:	b8 00 00 00 70       	mov    $0x70000000,%eax
+    8181:	c7 00 42 00 00 00    	movl   $0x42,(%eax)
     map_phy_buffer[1] = 99;
-    806a:	c6 05 01 90 00 00 63 	movb   $0x63,0x9001
+    8187:	c6 05 01 90 00 00 63 	movb   $0x63,0x9001
     map_phy_buffer[2] = 88;
-    8071:	c6 05 02 90 00 00 58 	movb   $0x58,0x9002
-    8078:	90                   	nop
-    8079:	c9                   	leave  
-    807a:	c3                   	ret    
+    818e:	c6 05 02 90 00 00 58 	movb   $0x58,0x9002
+    8195:	90                   	nop
+    8196:	c9                   	leave  
+    8197:	c3                   	ret    

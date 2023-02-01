@@ -7,6 +7,7 @@
 	.global _start
 	.global timer_int
 	.global task_0
+	.global syscall_handler
 
 	// 指定以下的代码生成16位的机器指令，这样才能在启动时的实模式下运行
   	.code16
@@ -103,10 +104,29 @@ timer_int:
 	mov %ax, %ds
 
 	call task_sched
-	
+
 	popa
 	pop %ds
 	iret
+
+syscall_handler:
+	push %ds
+	pusha
+
+	mov $KERNEL_DATA_SEG, %ax
+	mov %ax, %ds
+
+	mov %esp, %ebp
+	push 13 * 4(%ebp)
+	push 12 * 4(%ebp)
+	push 11 * 4(%ebp)
+	call do_syscall
+	add $(3 * 4), %esp
+
+	popa
+	pop %ds
+
+	retf $(3 * 4)
 
 
 task_0_entry:
