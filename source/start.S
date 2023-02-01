@@ -6,6 +6,7 @@
 	// 声明本地以下符号是全局的，在其它源文件中可以访问
 	.global _start
 	.global timer_int
+	.global task_0
 
 	// 指定以下的代码生成16位的机器指令，这样才能在启动时的实模式下运行
   	.code16
@@ -79,11 +80,14 @@ _start_32:
 	orl $(1 << 31), %eax
 	mov %eax, %cr0
 
+	mov $TASK0_TSS_SEG, %ax
+	ltr %ax # 修改TR寄存器 当前运行的是TASK0
+
 	# sti # start interrupt
 
 	push $APP_DATA_SEG
 	push $task0_dpl3_stack + 1024 * 4
-	push $0 // 0x202
+	push $0x202
 	push $APP_CODE_SEG
 	push $task_0_entry
 
@@ -94,6 +98,12 @@ timer_int:
 	pusha
 	mov $0x20, %al
 	outb %al, $0x20
+
+	mov $KERNEL_DATA_SEG, %ax
+	mov %ax, %ds
+
+	call task_sched
+	
 	popa
 	pop %ds
 	iret
@@ -105,7 +115,7 @@ task_0_entry:
 	mov %ax, %es
 	mov %ax, %gs
 	mov %ax, %fs
-	jmp .
+	jmp task_0
 
 
 gdt_desc:
